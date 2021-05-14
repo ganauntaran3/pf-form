@@ -15,10 +15,10 @@ include "connection.php";
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Form step -->
-    <link href="http://localhost/form/vendor/jquery-smartwizard/dist/css/smart_wizard.min.css" rel="stylesheet">
+    <link href="./vendor/jquery-smartwizard/dist/css/smart_wizard.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
-	<link href="http://localhost/form/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
-    <link href="http://localhost/form/css/style.css" rel="stylesheet">
+	<link href="./vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
 
 </head>
 
@@ -100,8 +100,8 @@ include "connection.php";
 
 										<div class="form-group col-md-4">
 											<label for="country">Country</label>
-											<select onChange="change_country()" name="country" id="country_id" class="form-control default-select">
-												<option selected>Choose...</option> 
+											<select onChange="change_state()" name="country" id="country_id" class="form-control default-select">
+												<option selected>Choose...</option>
 												<?php
 													$res = mysqli_query($c, "SELECT * FROM countries");
 													while($row=mysqli_fetch_array($res)){
@@ -117,7 +117,7 @@ include "connection.php";
 										<div class="form-group col-md-4">
 											<label for="state">State</label>
 											<div id="state">
-												<select name="state" id="state_id" class="form-control default-select">
+												<select onChange="change_city()" name="state" id="state_id" class="form-control default-select">
 													<option selected>Choose...</option>
 												</select>
 											</div>
@@ -127,7 +127,7 @@ include "connection.php";
 											<label for="city">City</label>
 											<div id="city">
 											<select name="city" id="city_id" class="form-control default-select">
-												<option selected>Choose...</option>
+												<option>Choose...</option>
 											</select>
 											</div>
 										</div>
@@ -175,37 +175,145 @@ include "connection.php";
     ***********************************-->
 	
 	<script>
-		function change_country(){
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "ajax.php?country="+document.getElementById("country_id").value, false);
-			xmlhttp.send(null);
-			document.getElementById("state").innerHTML=xmlhttp.responseText;
-		}
+        const createTemplate = (obj = []) => {
+            const innerDiv = document.createElement('div');
+            const list = document.createElement('ul');
+
+            // styling inner div
+            innerDiv.classList.add('inner');
+            innerDiv.setAttribute('role', 'listbox');
+            innerDiv.setAttribute('aria-expanded', 'false');
+            innerDiv.setAttribute('tabindex', '-1');
+            innerDiv.style.maxHeight = '214.667px';
+            innerDiv.style.minHeight = '0px';
+            innerDiv.style.overflowY = 'auto';
+
+            // styling list
+            list.classList.add('dropdown-menu');
+            list.classList.add('inner');
+            list.classList.add('show');
+
+            list.innerHTML = ``; // reset value
+
+            obj.map(({ id, name }) => {
+                list.innerHTML += `
+                <li>
+                    <a 
+                    role="option" 
+                    class="dropdown-item" 
+                    aria-disabled="false" 
+                    tabindex="0" 
+                    aria-selected="false">
+                    <span class="text">${name}</span>
+                    </a>
+                </li>
+                `;
+            });
+
+            innerDiv.appendChild(list);
+
+            return innerDiv;
+        }
+
+        function listOnClickListener(innerContainer, option) {
+            innerContainer.querySelectorAll('div.inner > ul.inner > li').forEach(item => {
+                item.addEventListener('click', () => {
+                    innerContainer.querySelector('div.inner').setAttribute('aria-expanded', false);
+                    innerContainer.classList.remove('show');
+                    innerContainer.previousElementSibling.setAttribute('aria-expanded', false);
+                    innerContainer.previousElementSibling.querySelector('.filter-option .filter-option-inner .filter-option-inner-inner').textContent = item.textContent;
+                    innerContainer.parentNode.classList.remove('show');
+
+                    const selected = option.data.find(d => {
+                        return item.querySelector('.dropdown-item .text').textContent === d.name;
+                    });
+
+                    innerContainer.parentNode.querySelector('select').value = selected.id;
+
+                    option.callback();
+                })
+            })
+        }
 
 		function change_state(){
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "ajax.php?state="+document.getElementById("state_id").value, false);
-			xmlhttp.send(null);
-			document.getElementById("city").innerHTML=xmlhttp.responseText;
+			const xhr = new XMLHttpRequest();
+            const countryId = document.getElementById("country_id").value;
+
+			xhr.open(
+                "GET", 
+                `ajax/ajax_get_state.php?country=${countryId}`, 
+                false
+            );
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    const container = document.getElementById('state');
+                    const innerContainer = container.querySelector('.dropdown > div.dropdown-menu[role=combobox]');
+                    const innerSelect = container.querySelector('#state_id');
+                    const states = JSON.parse(this.responseText);
+                    const template = createTemplate(states);
+
+                    innerSelect.innerHTML = states.map(({ id, name }) => `<option value="${id}">${name}</div>`);
+                    innerContainer.innerHTML = template.outerHTML;
+
+                    listOnClickListener(innerContainer, {
+                        callback: change_city,
+                        data: states,
+                    })
+                }
+            };
+
+            xhr.send();
+		}
+
+		function change_city() {
+			const xhr = new XMLHttpRequest();
+            const stateId = document.getElementById("state_id").value;
+
+			xhr.open(
+                "GET", 
+                `ajax/ajax_get_city.php?state=${stateId}`, 
+                false
+            );
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    const container = document.querySelector('#city');
+                    const innerContainer = container.querySelector('.dropdown > div.dropdown-menu[role=combobox]');
+                    const innerSelect = container.querySelector('#city_id');
+                    const cities = JSON.parse(this.responseText);
+                    const template = createTemplate(cities);
+
+                    innerSelect.innerHTML = cities.map(({ id, name }) => `<option value="${id}">${name}</div>`);
+                    innerContainer.innerHTML = template.outerHTML;
+
+                    listOnClickListener(innerContainer, {
+                        callback: () => {},
+                        data: cities
+                    });
+                }
+            };
+
+            xhr.send();
 		}
 	</script>
-	<script src="http://localhost/pf/vendor/global/global.min.js"></script>
-	<script src="http://localhost/pf/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+	<script src="./vendor/global/global.min.js"></script>
+	<script src="./vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
 
-    <script src="http://localhost/pf/vendor/jquery-steps/build/jquery.steps.min.js"></script>
-    <script src="http://localhost/pf/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src="http://localhost/pf/js/validation.js"></script>
+    <script src="./vendor/jquery-steps/build/jquery.steps.min.js"></script>
+    <script src="./vendor/jquery-validation/jquery.validate.min.js"></script>
+    <script src="./js/validation.js"></script>
     <!-- Form validate init -->
-    <script src="http://localhost/pf/js/plugins-init/jquery.validate-init.js"></script>
+    <script src="./js/plugins-init/jquery.validate-init.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
    <!-- form Steps -->
-	<script src="http://localhost/pf/vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
-    <script src="http://localhost/pf/js/custom.min.js"></script>
-	<script src="http://localhost/pf/js/deznav-init.js"></script>
-    <script src="http://localhost/pf/js/demo.js"></script>
-    <script src="http://localhost/pf/js/styleSwitcher.js"></script>
+	<script src="./vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
+    <script src="./js/custom.min.js"></script>
+	<script src="./js/deznav-init.js"></script>
+    <script src="./js/demo.js"></script>
+    <script src="./js/styleSwitcher.js"></script>
 </body>
 
 
