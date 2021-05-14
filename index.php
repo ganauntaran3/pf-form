@@ -175,10 +175,22 @@ include "connection.php";
 	
 	<script>
 		function change_country(){
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open("GET", "ajax.php?country="+document.getElementById("country_id").value, false);
-			xmlhttp.send(null);
-			document.getElementById("state").innerHTML=xmlhttp.responseText;
+			const xhr = new XMLHttpRequest();
+            const countryId = document.getElementById("country_id").value;
+
+			xhr.open(
+                "GET", 
+                `ajax/ajax_get_country.php?country=${countryId}`, 
+                false
+            );
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log(this.response);
+                }
+            };
+
+            xhr.send();
 		}
 
 		function change_state(){
