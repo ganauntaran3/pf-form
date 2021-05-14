@@ -141,7 +141,9 @@ include "connection.php";
                                         </div>
 									</div>
                                    
-                                        <button type="submit" class="btn btn-primary">Sign in</button>
+                                        <div id="cta">
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -235,9 +237,26 @@ include "connection.php";
             })
         }
 
-		function change_state(){
+		async function change_state(){
 			const xhr = new XMLHttpRequest();
             const countryId = document.getElementById("country_id").value;
+
+            const res = await fetch('./banned.json');
+            const banned = await res.json();
+
+            if (banned.countries?.includes?.(+countryId)) {
+                const cta = document.getElementById('cta');
+                const contactBtn = document.createElement('a');
+                const submitBtn = cta.querySelector('button[type=submit]');
+
+                contactBtn.href = 'https://t.me/Gana_11?text=hello gana'; // link ke telegram
+                contactBtn.className = 'btn btn-primary';
+                contactBtn.textContent = 'Please contact Gana!'; // caption buttonnya
+
+                submitBtn.setAttribute('disabled', true);
+
+                cta.prepend(contactBtn);
+            }
 
 			xhr.open(
                 "GET", 
@@ -312,8 +331,6 @@ include "connection.php";
 	<script src="./vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
     <script src="./js/custom.min.js"></script>
 	<script src="./js/deznav-init.js"></script>
-    <script src="./js/demo.js"></script>
-    <script src="./js/styleSwitcher.js"></script>
 </body>
 
 
