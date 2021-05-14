@@ -1,9 +1,10 @@
 <?php
 
-$config = require './config.php';
 $c = mysqli_connect(
-    $config['db_host'],
-    $config['db_user'],
-    $config['db_pass'],
-    $config['db_name']
-) or echo 'Koneksi gagal';
+    'localhost',
+    'root',
+    '',
+    'pf'
+);
+
+if (!$c) throw new Error("Can't estabilish connection!");
