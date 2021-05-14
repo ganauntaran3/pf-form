@@ -58,8 +58,10 @@ jQuery("#pf-form").validate({
     errorClass: "invalid-feedback animated fadeInUp",
     // // errorElement: "p",
     errorPlacement: function(error, element) {
-        if(element.prop("type") == "radio"){
-            error.insertAfter(element.parent('.form-group > p'));
+        if(element.attr("name") == "doc_type"){
+            error.appendTo('#error-doctype');
+        }else if(element.attr("name") == "gender"){
+            error.appendTo('#error-gender')
         }else{
             error.insertAfter(element);
         }

@@ -57,10 +57,10 @@ include "connection.php";
 
 									<div class="form-row">
 											<div class="form-group col-lg-4 mt-3">
-											<label class="pt-0">File Type</label> <br>
+                                            <label class="pt-0">File Type</label> <br>
                                             	<label class="radio-inline mr-3"><input type="radio" id="doc_type" name="doc_type" value="Passport"> Passport</label>
 												<label class="radio-inline mr-3"><input type="radio" id="doc_type" name="doc_type" value="ID"> National ID</label>
-												<p></p>
+												<div id="error-doctype"></div>
 											</div>
 											
 											<div class="form-group col-lg-8">
@@ -77,6 +77,7 @@ include "connection.php";
 											<label class="pt-0">Gender</label> <br>
 											<label class="radio-inline mr-3"><input type="radio" name="gender" value="male"> Mr.</label>
                                             <label class="radio-inline mr-1"><input type="radio" name="gender" value="female"> Mrs.</label>
+                                            <div id="error-gender"></div>
 										</div>
 
 										<div class="form-group col-md-8">
