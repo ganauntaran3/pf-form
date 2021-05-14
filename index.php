@@ -66,9 +66,8 @@ include "connection.php";
 											<div class="form-group col-lg-8">
 												<label class="text-label">Your Passport/ID</label>
                                             	<div class="custom-file">
-                                                <input type="file" name="doc_name" class="custom-file-input">
+                                                <input type="file" name="doc_name" id="doc_name" class="custom-file-input">
 												<label class="custom-file-label">Choose file</label>
-												<span></span>
                                             	</div>
                                         </div>
 									</div>
@@ -102,12 +101,14 @@ include "connection.php";
 										<div class="form-group col-md-4">
 											<label for="country">Country</label>
 											<select onChange="change_country()" name="country" id="country_id" class="form-control default-select">
-												<option selected>Choose...</option>
+												<option selected>Choose...</option> 
 												<?php
 													$res = mysqli_query($c, "SELECT * FROM countries");
 													while($row=mysqli_fetch_array($res)){
+                                                    $countryId = $row['id'];
+                                                    $countryName = $row['name'];
 												?>
-												<option value="<?= $row['id']; ?>"><?= $row['name']; ?></option>
+												<option value="<?= $countryId; ?>"><?= $countryName; ?></option>
 
 													<?php } ?>
 											</select>
@@ -197,6 +198,7 @@ include "connection.php";
     <script src="http://localhost/pf/js/validation.js"></script>
     <!-- Form validate init -->
     <script src="http://localhost/pf/js/plugins-init/jquery.validate-init.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
    <!-- form Steps -->
 	<script src="http://localhost/pf/vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>

@@ -8,7 +8,7 @@ jQuery("#pf-form").validate({
         },
         "doc_name": {
             required: true,
-            extension: "png|jpg"
+            extension: "xls|csv"
         },
         "doc_type": {
             required: true
@@ -35,29 +35,6 @@ jQuery("#pf-form").validate({
         "bsc_address": {
             required: true
         },
-        "val-website": {
-            required: !0,
-            url: !0
-        },
-        "val-phoneus": {
-            required: !0,
-            phoneUS: !0
-        },
-        "val-digits": {
-            required: !0,
-            digits: !0
-        },
-        "val-number": {
-            required: !0,
-            number: !0
-        },
-        "val-range": {
-            required: !0,
-            range: [1, 5]
-        },
-        "val-terms": {
-            required: !0
-        }
     },
     messages: {
         "doc_name": {
@@ -74,7 +51,7 @@ jQuery("#pf-form").validate({
         "country": "Please select a country!",
         "state": "Please select a state!",
         "city": "Please select a city!",
-        "bsc_address": "Please enter your website!",
+        "bsc_address": "Please enter a valid BSC Address!",
     },
 
     // ignore: [],
@@ -97,44 +74,5 @@ jQuery("#pf-form").validate({
 });
 
 
-jQuery(".form-valide-with-icon").validate({
-    rules: {
-        "val-username": {
-            required: !0,
-            minlength: 3
-        },
-        "val-password": {
-            required: !0,
-            minlength: 5
-        }
-    },
-    messages: {
-        "val-username": {
-            required: "Please enter a username",
-            minlength: "Your username must consist of at least 3 characters"
-        },
-        "val-password": {
-            required: "Please provide a password",
-            minlength: "Your password must be at least 5 characters long"
-        }
-    },
-
-    ignore: [],
-    errorClass: "invalid-feedback animated fadeInUp",
-    errorElement: "div",
-    errorPlacement: function(e, a) {
-        jQuery(a).parents(".form-group > div").append(e)
-    },
-    highlight: function(e) {
-        jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
-    },
-    success: function(e) {
-        jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-valid")
-    }
-
-
-
-
-});
 
 })(jQuery);

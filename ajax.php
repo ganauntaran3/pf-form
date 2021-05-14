@@ -2,8 +2,9 @@
 
 include "connection.php";
 $country = $_GET["country"];
-
+if(isset($_GET["state"])){
 $state = $_GET["state"];
+}
 
 if($country!=""){
     
@@ -19,8 +20,6 @@ if($country!=""){
     
 }
 
-
-$state = $_GET["state"];
 if($state!=""){
     
     $res = mysqli_query($c, "SELECT * FROM cities WHERE state_id=$state");
