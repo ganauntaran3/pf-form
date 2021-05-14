@@ -19,7 +19,7 @@ $bsc = $_POST["bsc_address"];
     $tmp_file = $_FILES['doc_name']['tmp_name'];   
     $randomN  = rand(1,999);
     $newFileName = $randomN.'-'.$docName; //menggabungkan angka acak dengan nama file sebenarnya
-        if(in_array($ext, $allowedExt) === true)  {     
+        // if(in_array($ext, $allowedExt) === true)  {     
             move_uploaded_file($tmp_file, 'image/'.$newFileName); //memindah file gambar ke folder image
 
             // jalankan query INSERT untuk menambah data ke database pastikan sesuai urutan
@@ -35,4 +35,4 @@ $bsc = $_POST["bsc_address"];
             } else {     
              //jika file ekstensi tidak jpg dan png maka alert ini yang tampil
                 echo "<script>alert('Just JPG and PNG extension allowed.');window.location='tambah_produk.php';</script>";
-            }
+            // }
