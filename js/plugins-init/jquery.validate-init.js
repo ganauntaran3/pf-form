@@ -24,13 +24,13 @@ jQuery("#pf-form").validate({
             required: true
         },
         "country": {
-            required: true
+            required: !0
         },
         "state": {
-            required: true
+            required: !0
         },
         "city": {
-            required: true
+            required: !0
         },
         "bsc_address": {
             required: true
@@ -61,7 +61,13 @@ jQuery("#pf-form").validate({
         if(element.attr("name") == "doc_type"){
             error.appendTo('#error-doctype');
         }else if(element.attr("name") == "gender"){
-            error.appendTo('#error-gender')
+            error.appendTo('#error-gender');
+        }else if(element.attr("name") == "country"){
+            error.appendTo('#error-country');
+        }else if(element.attr("name") == "state"){
+            error.appendTo('#error-state');
+        }else if(element.attr("name") == "city"){
+            error.appendTo('#error-city');
         }else{
             error.insertAfter(element);
         }

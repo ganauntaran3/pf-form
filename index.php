@@ -94,6 +94,7 @@ include "connection.php";
                                     	<div class="form-group col-md-6">
                                             <label>Full Address</label>
                                             <input type="text" name="address" class="form-control" placeholder="Enter your full address">
+                                            
                                         </div>
 									</div>
 										
@@ -102,7 +103,7 @@ include "connection.php";
 										<div class="form-group col-md-4">
 											<label for="country">Country</label>
 											<select onChange="change_state()" name="country" id="country_id" class="form-control default-select">
-												<option selected>Choose...</option>
+												<option value="">Choose...</option>
 												<?php
 													$res = mysqli_query($c, "SELECT * FROM countries");
 													while($row=mysqli_fetch_array($res)){
@@ -112,15 +113,18 @@ include "connection.php";
 												<option value="<?= $countryId; ?>"><?= $countryName; ?></option>
 
 													<?php } ?>
-											</select>
-										</div>
+                                            </select>
+                                            <div id="error-country"></div>
+                                        </div>
+                                        
 
 										<div class="form-group col-md-4">
 											<label for="state">State</label>
 											<div id="state">
 												<select onChange="change_city()" name="state" id="state_id" class="form-control default-select">
-													<option selected>Choose...</option>
-												</select>
+													<option value="">Choose...</option>
+                                                </select>
+                                                <div id="error-state"></div>
 											</div>
 										</div>
 
@@ -128,8 +132,9 @@ include "connection.php";
 											<label for="city">City</label>
 											<div id="city">
 											<select name="city" id="city_id" class="form-control default-select">
-												<option>Choose...</option>
-											</select>
+												<option value="">Choose...</option>
+                                            </select>
+                                            <div id="error-city"></div>
 											</div>
 										</div>
 
@@ -138,7 +143,7 @@ include "connection.php";
 									<div class="form-row">
 										<div class="form-group col-md-12">
                                             <label for="bsc_address">BSC Address</label>
-                                            <input type="text" name="bsc_address" id="bsc_address" class="form-control" placeholder="Enter your fullname">
+                                            <input type="text" name="bsc_address" id="bsc_address" class="form-control" placeholder="Enter a BSC Address">
                                         </div>
 									</div>
                                    

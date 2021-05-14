@@ -31,8 +31,3 @@ $bsc = $_POST["bsc_address"];
             } else {
                 echo "<script>alert('Your data successfully registrated.');window.location='index.php';</script>";
             }
-
-            } else {     
-             //jika file ekstensi tidak jpg dan png maka alert ini yang tampil
-                echo "<script>alert('Just JPG and PNG extension allowed.');window.location='tambah_produk.php';</script>";
-            // }
