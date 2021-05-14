@@ -1,35 +1,35 @@
-document
-  .querySelector('#cta button[type=submit]')
-  .addEventListener('click', async function (e) {
-    e.preventDefault()
-    const countryId = document.getElementById('country_id').value
+// document
+//   .querySelector('#cta button[type=submit]')
+//   .addEventListener('click', async function (e) {
+//     e.preventDefault()
+//     const countryId = document.getElementById('country_id').value
 
-    const res = await fetch('./banned.json')
-    const banned = await res.json()
-    const cta = document.getElementById('cta')
+//     const res = await fetch('./banned.json')
+//     const banned = await res.json()
+//     const cta = document.getElementById('cta')
 
-    if (banned.countries?.includes?.(+countryId)) {
-      const contactBtn = document.createElement('a')
-      const submitBtn = cta.querySelector('button[type=submit]')
+//     if (banned.countries.includes(+countryId)) {
+//       const contactBtn = document.createElement('a')
+//       const submitBtn = cta.querySelector('button[type=submit]')
 
-      contactBtn.href = 'https://t.me/Gana_11?text=hello gana' // link ke telegram
-      contactBtn.className = 'btn btn-primary'
-      contactBtn.textContent = 'Please contact Gana!' // caption buttonnya
+//       contactBtn.href = 'https://t.me/Gana_11?text=hello gana' // link ke telegram
+//       contactBtn.className = 'btn btn-primary'
+//       contactBtn.textContent = 'Please contact Gana!' // caption buttonnya
 
-      submitBtn.setAttribute('disabled', true)
+//       submitBtn.setAttribute('disabled', true)
 
-      cta.innerHTML = contactBtn.outerHTML
-      cta.innerHTML += submitBtn.outerHTML
+//       cta.innerHTML = contactBtn.outerHTML
+//       cta.innerHTML += submitBtn.outerHTML
 
-      return
-    } else {
-      const contactBtn = cta.querySelector('a')
-      const form = cta.parentNode
+//       return
+//     } else {
+//       const contactBtn = cta.querySelector('a')
+//       const form = cta.parentNode
 
-      if (cta.contains(contactBtn)) contactBtn.remove()
-      form.submit()
-    }
-  })
+//       if (cta.contains(contactBtn)) contactBtn.remove()
+//       // form.submit()
+//     }
+//   })
 
 const createTemplate = (obj = []) => {
   const innerDiv = document.createElement('div')
@@ -110,12 +110,12 @@ async function change_state() {
   const banned = await res.json()
   const cta = document.getElementById('cta')
 
-  if (banned.countries?.includes?.(+countryId)) {
+  if (banned.countries.includes(+countryId)) {
     const contactBtn = document.createElement('a')
     const submitBtn = cta.querySelector('button[type=submit]')
 
     contactBtn.href = 'https://t.me/Gana_11?text=hello gana' // link ke telegram
-    contactBtn.className = 'btn btn-primary'
+    contactBtn.className = 'btn btn-primary mr-3'
     contactBtn.textContent = 'Please contact Gana!' // caption buttonnya
 
     submitBtn.setAttribute('disabled', true)

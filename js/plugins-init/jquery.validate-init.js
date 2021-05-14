@@ -8,7 +8,7 @@ jQuery("#pf-form").validate({
         },
         "doc_name": {
             required: true,
-            extension: "xls|csv"
+            extension: "jpg|png"
         },
         "doc_type": {
             required: true

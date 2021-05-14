@@ -19,9 +19,12 @@ $bsc = $_POST["bsc_address"];
     $tmp_file = $_FILES['doc_name']['tmp_name'];   
     $randomN  = rand(1,999);
     $newFileName = $randomN.'-'.$docName; //menggabungkan angka acak dengan nama file sebenarnya
-        // if(in_array($ext, $allowedExt) === true)  {     
+    $addedBsc = "SELECT * FROM registration where bsc_address='$bsc'";
+    $qbsc = mysqli_query($c, $addedBsc);
+        if($qbsc != false){
+            echo "<script>alert('test');window.location.href='index.php';</script>";
+        }else{
             move_uploaded_file($tmp_file, 'image/'.$newFileName); //memindah file gambar ke folder image
-
             // jalankan query INSERT untuk menambah data ke database pastikan sesuai urutan
             $query = "INSERT INTO registration (doc_type, doc_name, gender, fullname, address, email, country, state, city, bsc_address) 
             VALUES ('$docType', '$newFileName', '$gender', '$fullname', '$address', '$email', '$country', '$state', '$city','$bsc')";
@@ -29,5 +32,6 @@ $bsc = $_POST["bsc_address"];
             if(!$result){
                 die ("Query gagal dijalankan: ".mysqli_errno($c)." - ".mysqli_error($c));
             } else {
-                echo "<script>alert('Your data successfully registrated.');window.location='index.php';</script>";
+                echo "<script>alert('Your data successfully registrated.');</script>";
             }
+        }
