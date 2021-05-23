@@ -17,56 +17,65 @@ const isResponseSuccess = response => {
 };
 
 const getCities = async id => {
-	const stateId = id;
-	const response = await fetch(
-		'ajax/ajax_get_cities.php',
-		getPostFetchOptions({ state_id: stateId })
-	);
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
 
-	if (isResponseSuccess(response)) {
-		const cities = await response.json();
-		const { data = [], error = false, message = '' } = cities;
+		xhr.onreadystatechange = function () {
+			if (this.readyState === 4 && this.status === 200) {
+				const response = JSON.parse(this.responseText);
+				return response.error
+					? reject({ data: response.data, message: response.message })
+					: resolve({ data: response.data, message: response.message });
+			} else if (this.readyState === 4 && this.status >= 400) {
+				return reject({ data: [], message: this.statusText });
+			}
+		};
 
-		return error
-			? Promise.reject({ data, message })
-			: Promise.resolve({ data, message });
-	}
-
-	return Promise.reject({ data: [], message: response.statusText });
+		xhr.open('POST', 'ajax/ajax_get_cities.php');
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.send(`state_id=${id}`);
+	});
 };
 
-const getCountries = async () => {
-	const response = await fetch('ajax/ajax_get_countries.php');
+const getCountries = () => {
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
 
-	if (isResponseSuccess(response)) {
-		const countries = await response.json();
-		const { data = [], error = false, message = '' } = countries;
+		xhr.onreadystatechange = function () {
+			if (this.readyState === 4 && this.status === 200) {
+				const response = JSON.parse(this.responseText);
+				return response.error
+					? reject({ data: response.data, message: response.message })
+					: resolve({ data: response.data, message: response.message });
+			} else if (this.readyState === 4 && this.status >= 400) {
+				return reject({ data: [], message: this.statusText });
+			}
+		};
 
-		return error
-			? Promise.reject({ data, message })
-			: Promise.resolve({ data, message });
-	}
-
-	return Promise.reject({ data: [], message: response.statusText });
+		xhr.open('GET', 'ajax/ajax_get_countries.php');
+		xhr.send();
+	});
 };
 
 const getStates = async id => {
-	const countryId = id;
-	const response = await fetch(
-		'ajax/ajax_get_states.php',
-		getPostFetchOptions({ country_id: countryId })
-	);
+	return new Promise((resolve, reject) => {
+		const xhr = new XMLHttpRequest();
 
-	if (isResponseSuccess(response)) {
-		const states = await response.json();
-		const { data = [], error = false, message = '' } = states;
+		xhr.onreadystatechange = function () {
+			if (this.readyState === 4 && this.status === 200) {
+				const response = JSON.parse(this.responseText);
+				return response.error
+					? reject({ data: response.data, message: response.message })
+					: resolve({ data: response.data, message: response.message });
+			} else if (this.readyState === 4 && this.status >= 400) {
+				return reject({ data: [], message: this.statusText });
+			}
+		};
 
-		return error
-			? Promise.reject({ data, message })
-			: Promise.resolve({ data, message });
-	}
-
-	return Promise.reject({ data: [], message: response.statusText });
+		xhr.open('POST', 'ajax/ajax_get_states.php');
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.send(`country_id=${id}`);
+	});
 };
 
 const citiesDatalist = document.querySelector('datalist#cities');
@@ -86,13 +95,13 @@ const getIdFromValueInDatalist = (value, datalist) => {
 
 try {
 	countryInput.addEventListener('focus', async function () {
-		const countries = await getCountries();
-
-		countriesDatalist.innerHTML = countries.data
-			.map(country => {
-				return `<option data-js="${country.id}" value="${country.name}" />`;
-			})
-			.join('');
+		getCountries().then(countries => {
+			countriesDatalist.innerHTML = countries.data
+				.map(country => {
+					return `<option data-js="${country.id}" value="${country.name}" />`;
+				})
+				.join('');
+		});
 	});
 
 	countryInput.addEventListener('focusout', async function () {
