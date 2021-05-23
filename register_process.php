@@ -21,11 +21,11 @@ $bsc = $_POST["bsc_address"];
     $newFileName = $randomN.'-'.$docName; //menggabungkan angka acak dengan nama file sebenarnya
     $addedBsc = "SELECT * FROM registration where bsc_address='$bsc'";
     $qbsc = mysqli_query($c, $addedBsc);
-        if($qbsc != false){
+        if(mysqli_num_rows($qbsc) > 0){
             echo "<script>alert('BSC Address is already exist!');window.location.href='index.php';</script>";
         }else{
             move_uploaded_file($tmp_file, 'image/'.$newFileName); //memindah file gambar ke folder image
-            $query = "INSERT INTO registration (doc_type, doc_name, gender, fullname, address, email, country_id, state_id, city_id, bsc_address) 
+            $query = "INSERT INTO registration (doc_type, doc_name, gender, fullname, address, email, country, state, city, bsc_address) 
             VALUES ('$docType', '$newFileName', '$gender', '$fullname', '$address', '$email', '$country', '$state', '$city','$bsc')";
             $result = mysqli_query($c, $query);
             if(!$result){
