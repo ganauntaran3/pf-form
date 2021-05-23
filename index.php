@@ -115,7 +115,7 @@ if(isset($_POST['citySearch'])){
 												<label class="radio-inline mr-3"><input type="radio" id="doc_type" name="doc_type" value="ID"> National ID</label>
 												<div id="error-doctype"></div>
 											</div>
-											
+
 											<div class="form-group col-lg-8">
 												<label class="text-label">Your Passport/ID</label>
                                             	<div class="custom-file">
@@ -147,7 +147,7 @@ if(isset($_POST['citySearch'])){
                                     	<div class="form-group col-md-6">
                                             <label>Full Address</label>
                                             <input type="text" name="address" class="form-control" placeholder="Enter your full address">
-                                            
+
                                         </div>
 									</div>
 
@@ -169,16 +169,16 @@ if(isset($_POST['citySearch'])){
                                             <input type="text" name="city" id="city" class="form-control" placeholder="Enter your city name">
                                             <div id="cityResponse"></div>
                                         </div>
-        
+
 									</div>
-									
+
 									<div class="form-row">
 										<div class="form-group col-md-12">
                                             <label for="bsc_address">BSC Address</label>
                                             <input type="text" name="bsc_address" id="bsc_address" class="form-control" placeholder="Enter a BSC Address">
                                         </div>
 									</div>
-                                   
+
                                         <div id="cta">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -204,7 +204,7 @@ if(isset($_POST['citySearch'])){
            Support ticket button end
         ***********************************-->
 
-        
+
     </div>
     <!--**********************************
         Main wrapper end
@@ -223,7 +223,7 @@ if(isset($_POST['citySearch'])){
                     $.ajax(
                         {
                             url: 'index.php',
-                            method: 'POST', 
+                            method: 'POST',
                             data: {
                                 countrySearch: 1,
                                 country: country
@@ -244,7 +244,7 @@ if(isset($_POST['citySearch'])){
                     $.ajax(
                         {
                             url: 'index.php',
-                            method: 'POST', 
+                            method: 'POST',
                             data: {
                                 stateSearch: 1,
                                 state: state
@@ -265,7 +265,7 @@ if(isset($_POST['citySearch'])){
                     $.ajax(
                         {
                             url: 'index.php',
-                            method: 'POST', 
+                            method: 'POST',
                             data: {
                                 citySearch: 1,
                                 city: city
@@ -296,7 +296,6 @@ if(isset($_POST['citySearch'])){
                 $("#city").val(c);
                 $("#cityResponse").html("");
             });
-            
         });
     </script>
 	<script src="./vendor/global/global.min.js"></script>
