@@ -1,5 +1,58 @@
 <?php
 include "connection.php";
+
+if(isset($_POST['countrySearch'])){
+    $response = "<div class='list-group'><a class='list-group-item list-group-item-action disabled>No Data Found</a></div>";
+    $q = $c->real_escape_string($_POST['country']);
+
+    $sql = mysqli_query($c, "SELECT * FROM countries WHERE name LIKE '%$q%'");
+    if($sql->num_rows > 0){
+        $response = "<div class='list-group'>";
+
+        while($data = $sql->fetch_array())
+            $response .= "<a class='list-group-item list-group-item-action' id='country-list'>".$data['name']."</a>";
+
+        $response .= "<div>";
+
+    }
+    exit($response);
+}
+
+if(isset($_POST['stateSearch'])){
+    $response = "<div class='list-group'><a class='list-group-item list-group-item-action disabled>No Data Found</a></div>";
+    $q = $c->real_escape_string($_POST['state']);
+
+    $sql = mysqli_query($c, "SELECT * FROM states WHERE name LIKE '%$q%'");
+    if($sql->num_rows > 0){
+        $response = "<div class='list-group'>";
+
+        while($data = $sql->fetch_array())
+            $response .= "<a class='list-group-item list-group-item-action' id='state-list'>".$data['name']."</a>";
+
+        $response .= "<div>";
+
+    }
+    exit($response);
+}
+
+if(isset($_POST['citySearch'])){
+    $response = "<div class='list-group'><a class='list-group-item list-group-item-action disabled>No Data Found</a></div>";
+    $q = $c->real_escape_string($_POST['city']);
+
+    $sql = mysqli_query($c, "SELECT * FROM cities WHERE name LIKE '%$q%'");
+    if($sql->num_rows > 0){
+        $response = "<div class='list-group'>";
+
+        while($data = $sql->fetch_array())
+            $response .= "<a class='list-group-item list-group-item-action' id='city-list'>".$data['name']."</a>";
+
+        $response .= "<div>";
+
+    }
+    exit($response);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +64,7 @@ include "connection.php";
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Zenix -  Crypto Admin Dashboard </title>
+    <title>Form</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Form step -->
@@ -97,47 +150,26 @@ include "connection.php";
                                             
                                         </div>
 									</div>
-										
+
                                     <div class="form-row">
-
-										<div class="form-group col-md-4">
-											<label for="country">Country</label>
-											<select onChange="change_state()" name="country" id="country_id" class="form-control default-select">
-												<option value="">Choose...</option>
-												<?php
-													$res = mysqli_query($c, "SELECT * FROM countries");
-													while($row=mysqli_fetch_array($res)){
-                                                    $countryId = $row['id'];
-                                                    $countryName = $row['name'];
-												?>
-												<option value="<?= $countryId; ?>"><?= $countryName; ?></option>
-
-													<?php } ?>
-                                            </select>
-                                            <div id="error-country"></div>
+                                        <div class="form-group col-md-4">
+                                            <label>Country</label>
+                                            <input type="text" name="country" id="country" class="form-control" placeholder="Enter your country name">
+                                            <div id="countryResponse"></div>
                                         </div>
-                                        
 
-										<div class="form-group col-md-4">
-											<label for="state">State</label>
-											<div id="state">
-												<select onChange="change_city()" name="state" id="state_id" class="form-control default-select">
-													<option value="">Choose...</option>
-                                                </select>
-                                                <div id="error-state"></div>
-											</div>
-										</div>
+                                        <div class="form-group col-md-4">
+                                            <label>State</label>
+                                            <input type="text" name="state" id="state" class="form-control" placeholder="Enter your state name">
+                                            <div id="stateResponse"></div>
+                                        </div>
 
-										<div class="form-group col-md-4">
-											<label for="city">City</label>
-											<div id="city">
-											<select name="city" id="city_id" class="form-control default-select">
-												<option value="">Choose...</option>
-                                            </select>
-                                            <div id="error-city"></div>
-											</div>
-										</div>
-
+                                        <div class="form-group col-md-4">
+                                            <label>City</label>
+                                            <input type="text" name="city" id="city" class="form-control" placeholder="Enter your city name">
+                                            <div id="cityResponse"></div>
+                                        </div>
+        
 									</div>
 									
 									<div class="form-row">
@@ -148,7 +180,7 @@ include "connection.php";
 									</div>
                                    
                                         <div id="cta">
-                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
                                     </form>
                                 </div>
@@ -181,21 +213,100 @@ include "connection.php";
     <!--**********************************
         Scripts
     ***********************************-->
-	
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function (){
+            $("#country").keyup(function(){
+                var country = $("#country").val()
+
+                if(country.length > 1){
+                    $.ajax(
+                        {
+                            url: 'index.php',
+                            method: 'POST', 
+                            data: {
+                                countrySearch: 1,
+                                country: country
+                            },
+                            success: function(data){
+                                $("#countryResponse").html(data);
+                            },
+                            dataType: 'text'
+                        }
+                    );
+                }
+            });
+
+            $("#state").keyup(function(){
+                var state = $("#state").val()
+
+                if(state.length > 2){
+                    $.ajax(
+                        {
+                            url: 'index.php',
+                            method: 'POST', 
+                            data: {
+                                stateSearch: 1,
+                                state: state
+                            },
+                            success: function(data){
+                                $("#stateResponse").html(data);
+                            },
+                            dataType: 'text'
+                        }
+                    );
+                }
+            });
+
+            $("#city").keyup(function(){
+                var city = $("#city").val()
+
+                if(city.length > 4){
+                    $.ajax(
+                        {
+                            url: 'index.php',
+                            method: 'POST', 
+                            data: {
+                                citySearch: 1,
+                                city: city
+                            },
+                            success: function(data){
+                                $("#cityResponse").html(data);
+                            },
+                            dataType: 'text'
+                        }
+                    );
+                }
+            });
+
+            $(document).on('click', '#country-list', function(){
+                var c = $(this).text();
+                $("#country").val(c);
+                $("#countryResponse").html("");
+            });
+
+            $(document).on('click', '#state-list', function(){
+                var c = $(this).text();
+                $("#state").val(c);
+                $("#stateResponse").html("");
+            });
+
+            $(document).on('click', '#city-list', function(){
+                var c = $(this).text();
+                $("#city").val(c);
+                $("#cityResponse").html("");
+            });
+            
+        });
+    </script>
 	<script src="./vendor/global/global.min.js"></script>
 	<script src="./vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    
-    
-    <script src="./vendor/jquery-steps/build/jquery.steps.min.js"></script>
     <script src="./vendor/jquery-validation/jquery.validate.min.js"></script>
     <script src="./js/validation.js"></script>
 	<script src="./js/my.js"></script>
     <!-- Form validate init -->
     <script src="./js/plugins-init/jquery.validate-init.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-
-   <!-- form Steps -->
-	<script src="./vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js"></script>
     <script src="./js/custom.min.js"></script>
 	<script src="./js/deznav-init.js"></script>
 </body>

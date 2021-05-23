@@ -1,36 +1,3 @@
-// document
-//   .querySelector('#cta button[type=submit]')
-//   .addEventListener('click', async function (e) {
-//     e.preventDefault()
-//     const countryId = document.getElementById('country_id').value
-
-//     const res = await fetch('./banned.json')
-//     const banned = await res.json()
-//     const cta = document.getElementById('cta')
-
-//     if (banned.countries.includes(+countryId)) {
-//       const contactBtn = document.createElement('a')
-//       const submitBtn = cta.querySelector('button[type=submit]')
-
-//       contactBtn.href = 'https://t.me/Gana_11?text=hello gana' // link ke telegram
-//       contactBtn.className = 'btn btn-primary'
-//       contactBtn.textContent = 'Please contact Gana!' // caption buttonnya
-
-//       submitBtn.setAttribute('disabled', true)
-
-//       cta.innerHTML = contactBtn.outerHTML
-//       cta.innerHTML += submitBtn.outerHTML
-
-//       return
-//     } else {
-//       const contactBtn = cta.querySelector('a')
-//       const form = cta.parentNode
-
-//       if (cta.contains(contactBtn)) contactBtn.remove()
-//       // form.submit()
-//     }
-//   })
-
 const createTemplate = (obj = []) => {
   const innerDiv = document.createElement('div')
   const list = document.createElement('ul')
@@ -114,9 +81,9 @@ async function change_state() {
     const contactBtn = document.createElement('a')
     const submitBtn = cta.querySelector('button[type=submit]')
 
-    contactBtn.href = 'https://t.me/Gana_11?text=hello gana' // link ke telegram
+    contactBtn.href = 'https://t.me/Rijal?text=Hello%i%would%like%to%get%an%offline%BSC%Form' // link ke telegram
     contactBtn.className = 'btn btn-primary mr-3'
-    contactBtn.textContent = 'Please contact Gana!' // caption buttonnya
+    contactBtn.textContent = 'Please contact Corporate Secretary' // caption buttonnya
 
     submitBtn.setAttribute('disabled', true)
 

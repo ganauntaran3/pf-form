@@ -48,9 +48,9 @@ jQuery("#pf-form").validate({
         },
         "email": "Please enter a valid email address!",
         "address": "Please enter your full address!",
-        "country": "Please select a country!",
-        "state": "Please select a state!",
-        "city": "Please select a city!",
+        "country": "Please enter a country!",
+        "state": "Please enter a state!",
+        "city": "Please enter a city!",
         "bsc_address": "Please enter a valid BSC Address!",
     },
 
@@ -62,12 +62,6 @@ jQuery("#pf-form").validate({
             error.appendTo('#error-doctype');
         }else if(element.attr("name") == "gender"){
             error.appendTo('#error-gender');
-        }else if(element.attr("name") == "country"){
-            error.appendTo('#error-country');
-        }else if(element.attr("name") == "state"){
-            error.appendTo('#error-state');
-        }else if(element.attr("name") == "city"){
-            error.appendTo('#error-city');
         }else{
             error.insertAfter(element);
         }
