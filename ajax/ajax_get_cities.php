@@ -38,5 +38,4 @@ while ($city = mysqli_fetch_assoc($cities)) {
   ];
 }
 
-echo json_encode($response);
-exit;
+exit(json_encode($response));
