@@ -86,11 +86,13 @@ const statesDatalist = document.querySelector('datalist#states');
 const stateInput = document.querySelector('input#state');
 
 const getIdFromValueInDatalist = (value, datalist) => {
-	return (
-		Array.from(datalist.querySelectorAll('option')).find(option => {
+	const selected = Array.from(datalist.querySelectorAll('option')).find(
+		option => {
 			return option.getAttribute('value') === value;
-		})?.dataset?.js ?? null
+		}
 	);
+
+	return selected ? selected.getAttribute('data-js') : null;
 };
 
 try {
