@@ -109,7 +109,8 @@ try {
 			contactBtn.id = 'contact-btn';
 			contactBtn.innerText = 'Chat me for more!';
 
-			cta.prepend(contactBtn);
+			!cta.contains(cta.querySelector('#contact-btn')) &&
+				cta.prepend(contactBtn);
 			submitBtn.setAttribute('disabled', true);
 		} else {
 			cta.contains(cta.querySelector('#contact-btn')) &&
