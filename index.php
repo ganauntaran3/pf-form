@@ -279,8 +279,29 @@ if(isset($_POST['citySearch'])){
                 }
             });
 
-            $(document).on('click', '#country-list', function(){
+            $(document).on('click', '#country-list', async function(){
                 var c = $(this).text();
+                var banned = await fetch('banned.json');
+                banned = await banned.json();
+
+                var contactBtn = document.createElement('a');
+                var cta = document.getElementById('cta');
+                var submitBtn = cta.querySelector('button[type=submit]');
+
+                // button modifier
+                contactBtn.className = 'btn btn-primary';
+                contactBtn.href = 'https://t.me/Gana_11';
+                contactBtn.id = 'contact-btn';
+                contactBtn.innerHTML = 'Chat Me';
+
+                if (banned.countries.includes(c)) {
+                    !cta.contains(cta.querySelector('#contact-btn')) && cta.prepend(contactBtn);
+                    !submitBtn.hasAttribute('disabled') && submitBtn.setAttribute('disabled', true);
+                } else {
+                    cta.contains(cta.querySelector('#contact-btn')) && cta.removeChild(cta.querySelector('#contact-btn'));
+                    submitBtn.hasAttribute('disabled') && submitBtn.removeAttribute('disabled');
+                }
+
                 $("#country").val(c);
                 $("#countryResponse").html("");
             });
