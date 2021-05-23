@@ -14,8 +14,7 @@ if (!(bool) $countryId) {
   $response['error'] = true;
   $response['message'] = 'Invalid type of required data: Country ID';
 
-  echo json_encode($response);
-  exit;
+  exit(json_encode($response));
 }
 
 $sql = "SELECT id, name FROM states WHERE country_id={$countryId}";
@@ -26,8 +25,7 @@ if ($states === false) {
   $response['error'] = true;
   $response['message'] = "Error while requesting data from the server!";
 
-  echo json_encode($response);
-  exit;
+  exit(json_encode($response));
 }
 
 $response = $defaultResponse;
@@ -40,5 +38,4 @@ while ($state = mysqli_fetch_assoc($states)) {
   ];
 }
 
-echo json_encode($response);
-exit;
+exit(json_encode($response));

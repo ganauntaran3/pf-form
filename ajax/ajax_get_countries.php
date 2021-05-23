@@ -16,8 +16,7 @@ if ($countries === false) {
   $response['error'] = true;
   $response['message'] = "Error while requesting data from the server!";
 
-  echo json_encode($response);
-  exit;
+  exit(json_encode($response));
 }
 
 $response = $defaultResponse;
@@ -30,5 +29,4 @@ while ($country = mysqli_fetch_assoc($countries)) {
   ];
 }
 
-echo json_encode($response);
-exit;
+exit(json_encode($response));

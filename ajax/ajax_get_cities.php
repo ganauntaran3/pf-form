@@ -14,8 +14,7 @@ if (!(bool) $stateId) {
   $response['error'] = true;
   $response['message'] = 'Invalid type of required data: State ID';
 
-  echo json_encode($response);
-  exit;
+  exit(json_encode($response));
 }
 
 $sql = "SELECT id, name FROM cities WHERE state_id={$stateId}";
@@ -26,8 +25,7 @@ if ($cities === false) {
   $response['error'] = true;
   $response['message'] = "Error while requesting data from the server!";
 
-  echo json_encode($response);
-  exit;
+  exit(json_encode($response));
 }
 
 $response = $defaultResponse;
